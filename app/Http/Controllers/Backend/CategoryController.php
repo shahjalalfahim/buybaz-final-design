@@ -29,13 +29,23 @@ class CategoryController extends Controller
 
                 if (isset($request->image)){
                     $imageName = rand().'-category-'.'.'.$request->image->extension();
-                    $request->image->move('backend/images/category'.$imageName);
+                    $request->image->move('backend/images/category',$imageName);
 
                     $category->image = $imageName;
                 }
 
                 $category->save();
                 return redirect()->back();
+            }
+        }
+    }
+
+    public function showCategory ()
+    {
+        if(Auth::user()){
+            if(Auth::user()->role == 1){
+                $categories = Category::get();
+                return view('backend.admin.category.list', compact('categories'));
             }
         }
     }
