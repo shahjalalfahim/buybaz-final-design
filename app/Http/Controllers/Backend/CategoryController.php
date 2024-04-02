@@ -49,4 +49,17 @@ class CategoryController extends Controller
             }
         }
     }
+
+    public function deleteCategory ($id)
+    {
+        $category = Category::find($id);
+
+        if($category->image && file_exists('backend/images/category/'.$category->image)){
+            unlink('backend/images/category/'.$category->image);
+        }
+
+        $category->delete();
+        return redirect()->back();
+    }
+
 }
